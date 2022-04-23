@@ -1,0 +1,24 @@
+{
+  "name": "Github-Categorizing",
+  "description": "A Chrome extension that categorizes projects on GitHub.",
+  "version": "1.0",
+  "action": {},
+  "manifest_version": 3,
+  "background": {
+  //"service_worker": "background.js"
+  },
+  "permissions": [
+    "storage",
+    "activeTab",
+    "scripting"
+  ],
+
+  "content_scripts": [
+   {
+     "matches": ["https://github.com/*"],
+   //  "css": [".css"],
+     "js": ["run.js"]
+   }
+ ]
+
+}
