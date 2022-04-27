@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <!-- jsTree theme -->
+  <title>Github-Categorizing-Setting</title>
+  <link rel="stylesheet" href="./css/bootstrap.min.css">
+  <link rel="stylesheet" href="./css/style.min.css">
+</head>
+
+<body>
+<div id="tree"></div>
+<!-- jQuery -->
+<script src="./js/jquery.min.js"></script>
+<!-- jsTree -->
+<script src="./js/jstree.min.js"></script>
+
+
+<div class="row">
+
+  <div class="col-md-12">
+    <div class="col-md-4 col-sm-8 col-xs-8">
+      <button type="button" class="btn btn-success btn-sm" onclick="demo_create();"><i class="glyphicon glyphicon-asterisk"></i> Create</button>
+      <button type="button" class="btn btn-warning btn-sm" onclick="demo_rename();"><i class="glyphicon glyphicon-pencil"></i> Rename</button>
+      <button type="button" class="btn btn-danger btn-sm" onclick="demo_delete();"><i class="glyphicon glyphicon-remove"></i> Delete</button>
+    </div>
+
+
+
+    <div id="repo-tree" class="demo jstree jstree-1 jstree-default" style="margin-top:1em; min-height:200px;" role="tree" aria-multiselectable="true" tabindex="0" aria-activedescendant="demo_root_1" aria-busy="false">
+      <ul class="jstree-container-ul jstree-children jstree-striped jstree-contextmenu jstree-wholerow-ul jstree-no-dots" role="group">
+        <li role="none" id="demo_root_1" class="jstree-node  jstree-open" aria-busy="false">
+          <div unselectable="on" role="presentation" class="jstree-wholerow jstree-wholerow-clicked">&nbsp;</div>
+          <i class="jstree-icon jstree-ocl" role="presentation" aria-expanded="true"></i><a class="jstree-anchor jstree-clicked" href="#" tabindex="-1" role="treeitem" aria-selected="true" aria-level="1" aria-expanded="false" id="demo_root_1_anchor"><i class="jstree-icon jstree-themeicon jstree-themeicon-custom" role="presentation" style="background-image: url(&quot;/static/3.3.12/assets/images/tree_icon.png&quot;); background-position: center center; background-size: auto;"></i>Root 1</a>
+          <ul role="group" class="jstree-children">
+            <li role="none" id="j1_3" class="jstree-node  jstree-leaf">
+              <div unselectable="on" role="presentation" class="jstree-wholerow">&nbsp;</div>
+              <i class="jstree-icon jstree-ocl" role="presentation"></i><a class="jstree-anchor" href="#" tabindex="-1" role="treeitem" aria-selected="false" aria-level="2" id="j1_3_anchor"><i class="jstree-icon jstree-themeicon" role="presentation"></i>Child 1</a>
+            </li>
+            <li role="none" id="demo_child_1" class="jstree-node  jstree-open jstree-last">
+              <div unselectable="on" role="presentation" class="jstree-wholerow">&nbsp;</div>
+              <i class="jstree-icon jstree-ocl" role="presentation" aria-expanded="true"></i><a class="jstree-anchor" href="#" tabindex="-1" role="treeitem" aria-selected="false" aria-level="2" aria-expanded="false" id="demo_child_1_anchor"><i class="jstree-icon jstree-themeicon" role="presentation"></i>Child 2</a>
+              <ul role="group" class="jstree-children">
+                <li role="none" id="demo_child_2" class="jstree-node  jstree-leaf jstree-last">
+                  <div unselectable="on" role="presentation" class="jstree-wholerow">&nbsp;</div>
+                  <i class="jstree-icon jstree-ocl" role="presentation"></i><a class="jstree-anchor" href="#" tabindex="-1" role="treeitem" aria-selected="false" aria-level="3" id="demo_child_2_anchor"><i class="jstree-icon jstree-themeicon glyphicon glyphicon-file jstree-themeicon-custom" role="presentation"></i>One more</a>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+        <li role="none" id="demo_root_2" class="jstree-node  jstree-leaf jstree-last">
+          <div unselectable="on" role="presentation" class="jstree-wholerow">&nbsp;</div>
+          <i class="jstree-icon jstree-ocl" role="presentation"></i><a class="jstree-anchor" href="#" tabindex="-1" role="treeitem" aria-selected="false" aria-level="1" id="demo_root_2_anchor"><i class="jstree-icon jstree-themeicon jstree-themeicon-custom" role="presentation" style="background-image: url(&quot;/static/3.3.12/assets/images/tree_icon.png&quot;); background-position: center center; background-size: auto;"></i>Root 2</a>
+        </li>
+      </ul>
+    </div>
+    <script>
+
+      function demo_create() {
+        var ref = $('#repo-tree').jstree(true),
+                sel = ref.get_selected();
+        if(!sel.length) { return false; }
+        sel = sel[0];
+        sel = ref.create_node(sel, {"type":"file"});
+        if(sel) {
+          ref.edit(sel);
+        }
+      };
+
+      function demo_rename() {
+        var ref = $('#repo-tree').jstree(true),
+                sel = ref.get_selected();
+        if(!sel.length) { return false; }
+        sel = sel[0];
+        ref.edit(sel);
+      };
+
+      function demo_delete() {
+        var ref = $('#repo-tree').jstree(true),
+                sel = ref.get_selected();
+        if(!sel.length) { return false; }
+        ref.delete_node(sel);
+      };
+
+      $(function () {
+        var to = false;
+        $('#demo_q').keyup(function () {
+          if(to) { clearTimeout(to); }
+          to = setTimeout(function () {
+            var v = $('#demo_q').val(); //Todo: Edit Search
+            $('#repo-tree').jstree(true).search(v);
+          }, 250);
+        });
+
+
+        $('#repo-tree').jstree({
+          "core": {
+            "animation": 0,
+            "check_callback": true,
+            "themes": {
+              "stripes": true
+            },
+
+            'data' : []
+
+          },
+          "types": {
+            "#": {
+              "max_children": 1,
+              "max_depth": 4,
+              "valid_children": ["root"]
+            },
+            "default" : {
+              "icon" : "glyphicon glyphicon-flash"
+            },
+            "demo" : {
+              "icon" : "glyphicon glyphicon-ok"
+            }
+          },
+          "plugins": [
+            "contextmenu", "dnd", "search",
+            "types", "unique"
+          ]
+        });
+
+      });
+    </script>
+  </div>
+
+
+</div>
+</body>
+
+
+
+</html>

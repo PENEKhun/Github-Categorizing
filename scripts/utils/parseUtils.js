@@ -1,3 +1,5 @@
+import {datasetUtils} from "./datasetUtils.js";
+
 export const parseUtils = {
     name: name = "",
 
@@ -13,7 +15,7 @@ export const parseUtils = {
         data = data.substring(startPoint, data.length-1);
 
         //레포지토리 이름을 파싱하고
-        let parseBy = `<ahref=/${infoUtils.name}/`;
+        let parseBy = `<ahref=/${datasetUtils.getName()}/`;
         let tempData = data.split(parseBy);
         //불필요한 값이 담긴 1번 인덱스를 날려버립니다.
         tempData = tempData.splice(1, tempData.length);
@@ -22,6 +24,7 @@ export const parseUtils = {
             result[i] = tempData[i].split("itemprop=")[0];
         }
         return result;
+
         /*chrome.runtime.sendMessage({action: "finished_Get_Repository", res : result}, response => {
             if (response.status === false)
                 throw new Error("레이아웃 표시 오류입니다.");
