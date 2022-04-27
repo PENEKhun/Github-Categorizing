@@ -4,21 +4,33 @@
   "version": "1.0",
   "action": {},
   "manifest_version": 3,
-  "background": {
-  //"service_worker": "background.js"
-  },
+
   "permissions": [
     "storage",
-    "activeTab",
-    "scripting"
+    "cookies",
+    "tabs"
   ],
+
+  "host_permissions": [
+    "https://github.com/*"
+  ],
+
+  "background": {
+    "service_worker": "background.js"
+   },
 
   "content_scripts": [
    {
      "matches": ["https://github.com/*"],
-   //  "css": [".css"],
-     "js": ["run.js"]
+     "js": ["content_script.js"],
+     "run_at": "document_start"
+     //todo: run_at 속성 추가
    }
- ]
+ ],
 
+  "web_accessible_resources": [{
+    "resources": ["*"],
+    "matches": ["https://github.com/*"],
+    "extension_ids": []
+  }]
 }
